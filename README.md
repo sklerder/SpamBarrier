@@ -12,7 +12,7 @@ In registration phase :
 
 In login phase :
 - At first level, checks if StopForumSpam database knows IP address or Email.
-- At second level, checks if IP address is know n from DNSBL (DNS blacklists).
+- At second level, checks if IP address is known from DNSBL (DNS blacklists).
 
 If you chose to report spammers to StopForumSpam, you can also report manually those you detect on your forum.
 In this case, it's recommended (but not mandatory) to give a proof of the spam action.
