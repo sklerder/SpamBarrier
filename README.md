@@ -1,9 +1,9 @@
 # SpamBarrier
 No more captcha !!
 
-A mod to protect FluxBB forums against forum spammers.
-Works with FluxBB 1.5.10 and should work with 1.5.11.
-Previous releases worked with previous releases of FluxBB, so this release should work with older releases of FluxBB, but it hasn't been tested.
+A mod to protect FluxBB forums against forum spammers.</br>
+Works with FluxBB 1.5.10 and should work with 1.5.11.</br>
+Previous releases worked with previous releases of FluxBB, so this release should work with older releases of FluxBB (as the code has not been bigly modified), but it hasn't been tested.
 
 
 # [How it works ?]
