@@ -24,6 +24,7 @@ In login phase :
 The connection attempt is blocked as soon as a check detects a potential spammer, with a message explaining the reason of blocking.
 
 # Reporting to StopForumSpam
+StopForumSpam is a free (and very efficient) database that tracks forum spammers.</br>
 To report a spammer to StopForumSpam, you'll need an API key from StopForumSpam (by creating an account, which is free).</br>
 This API key must be registered with 'AP_SpamBarrier.php' to activate the functionality.</br>
 If you chose to report spammers to StopForumSpam, you will also be able to report manually spammers you detect</br>
