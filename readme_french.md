@@ -40,7 +40,7 @@ Le mécanisme de liste blanche n'est pas utilisé pour court-circuiter le champ 
 Des informations détaillées concernant les listes blanches peuvent être trouvées dans le plugin d'administration (AP_SpamBarrier.php).
 
 # Traduction
-La mode est disponible en anglais et en français.</br>
+La mod est disponible en anglais et en français.</br>
 Elle peut être traduite en créant un répertoire subséquent dans 'files/lang' (par exemple 'files/lang/Spanish')</br>
 et en créant les fichiers de traduction (spambarrier.php and AP_SpamBarrier.php sont à traduire), en se basant sur l'anglais ou le français.</br>
 Soyez prudent en traduisant, les fichiers de traduction doivent être parfaitement reconnus et exécutés par PHP (encodage UTF-8, apostrophes dans les textes, ...).
@@ -81,4 +81,5 @@ Use either the <b>'Disable'</b> option or <b>'Uninstall'</b> option of Daris's P
 The <b>'Disable'</b> option removes modifications made as described in <i>'readme.txt'</i>, but doesn't remove files from <i>'include'</i>, <i>'lang'</i> and <i>'plugins'</i>.</br>
 The <b>'Uninstall'</b>option removes modifications, files that were copied in <i>'include'</i>, <i>'lang'</i> and <i>'plugins'</i>, and</br>
 uninstalls modifications in database if you modified the <i>'install_mod.php'</i> as described in above <b>Note</b>.
+
 
