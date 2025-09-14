@@ -42,7 +42,7 @@ Des informations détaillées concernant les listes blanches peuvent être trouv
 # Traduction
 La mod est disponible en anglais et en français.</br>
 Elle peut être traduite en créant un répertoire subséquent dans 'files/lang' (par exemple 'files/lang/Spanish')</br>
-et en créant les fichiers de traduction (spambarrier.php and AP_SpamBarrier.php sont à traduire), en se basant sur l'anglais ou le français.</br>
+et en créant les fichiers de traduction (spambarrier.php et AP_SpamBarrier.php sont à traduire), en se basant sur l'anglais ou le français.</br>
 Soyez prudent en traduisant, les fichiers de traduction doivent être parfaitement reconnus et exécutés par PHP (encodage UTF-8, apostrophes dans les textes, ...).
 
 # Installation de la mod  
@@ -52,7 +52,6 @@ Si c'est la première fois que vous installez la mod, ou si vous avez complètem
 Le fichier <i>'install_mod.php'</i> prend soin de ne pas réinstaller la base de données si elle est correctement installée.</br>
 ## Installation manuelle
 La mod peut être installée manuellement en suivant les étapes du fichier <i>'readme.txt'</i>.</br>
-The database installation is performed by copying the <i>'install_mod.php'</i> file in the root of the</br>
 L'installation dans la base de données est faite en copiant le fichier <i>'install_mod.php'</i> à la racine</br>
 du forum (https://my_site.com/my_forum) et en exécutant <b>en tant qu'administrateur</b> le fichier <i>'install_mod.php'</i>
 avec votre navigateur (https://my_site.com/my_forum/install_mod dans le navigateur).</br>
@@ -73,13 +72,13 @@ La désinstallation peut être faite manuellement ou semi-automatiquement.<br/>
 
 ## Désinstallation manuelle
 Annulez les étapes du fichier <i>'readme.txt'</i> en commençant par la fin du fichier.</br>
-If the database informations are to be removed, run the <b>'install_mod.php'</b> file as when installing,</br>
 Si les informations en base de données doivent être supprimées, lancez le fichier <b>'install_mod.php'</b>  comme lors de l'installation,</br>
-a <b>'Restore'</b> button should be available if you modified the <i>'install_mod.php'</i> as described in above <b>Note</b>.
+un bouton <b>'Restore'</b> devrait être disponible <b>si</b> vous avez modifié <i>'install_mod.php'</i> comme décrit dans la <b>Note</b> au-dessus.
 ## Semi-automatic uninstallation
-Use either the <b>'Disable'</b> option or <b>'Uninstall'</b> option of Daris's Patcher.</br>
-The <b>'Disable'</b> option removes modifications made as described in <i>'readme.txt'</i>, but doesn't remove files from <i>'include'</i>, <i>'lang'</i> and <i>'plugins'</i>.</br>
-The <b>'Uninstall'</b>option removes modifications, files that were copied in <i>'include'</i>, <i>'lang'</i> and <i>'plugins'</i>, and</br>
-uninstalls modifications in database if you modified the <i>'install_mod.php'</i> as described in above <b>Note</b>.
+Utilisez soit l'option <b>'Désactiver'</b> soit l'option <b>'Désintaller'</b> du Patcher de Daris.</br>
+L'option <b>'Désactiver'</b> supprime les modifications telles que décrites dans le fichier <i>'readme.txt'</i>, mais ne supprime aucune fichier de <i>'include'</i>, <i>'lang'</i> et <i>'plugins'</i>.</br>
+L'option <b>'Désintaller'</b> supprime les modifications, supprime les fichiers qui ont été copiés dans <i>'include'</i>, <i>'lang'</i> et <i>'plugins'</i>, et
+supprime les modifications faites en base de données <b>si</b> vous avez modifié <i>'install_mod.php'</i> comme décrit dans la <b>Note</b> au-dessus.
+
 
 
