@@ -50,7 +50,7 @@ switch ($db_type)
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
 define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', '1.0.7');
+define('PLUGIN_VERSION', '1.0.7.1');
 
 // Load the AP_SpamBarrier.php language file
 if (file_exists(PUN_ROOT.'lang/'.$pun_user['language'].'/AP_SpamBarrier.php'))
@@ -96,81 +96,85 @@ if (isset($_POST['form_sent']))
 	require_once PUN_ROOT.'include/cache.php';
 	generate_config_cache();
 
-	redirect('admin_loader.php?plugin=AP_SpamBarrier.php', $lang_ap_spambarrier['Redirect message']);
+	redirect('admin_loader.php?plugin=AP_SpamBarrier_v071.php', $lang_ap_spambarrier['Redirect message']);
 }
 else if (isset($_POST['search_users']))
 {
 	// Display the admin navigation menu
-?>
-<div class="linkst">
-	<div class="inbox">
-		<div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
-	</div>
-</div>
+    ?>
+    <div class="linkst">
+        <div class="inbox">
+            <div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
+        </div>
+    </div>
 
-<div id="users2" class="blocktable">
-	<h2><span><?php echo $lang_ap_spambarrier['SB_users'] ?></span></h2>
-	<div class="box">
-		<div class="inbox">
-			<table cellspacing="0">
-			<thead>
-				<tr>
-					<th class="tcl" scope="col"><?php echo $lang_ap_spambarrier['Col_Username'] ?></th>
-					<th class="tcr" scope="col"><?php echo $lang_ap_spambarrier['Col_Email'] ?></th>
-					<th class="tc3" scope="col"><?php echo $lang_ap_spambarrier['Col_Posts'] ?></th>
-					<th class="tc2" scope="col"><?php echo $lang_ap_spambarrier['Col_Signature'] ?></th>
-					<th class="tc2" scope="col"><?php echo $lang_ap_spambarrier['Col_Website'] ?></th>
-					<th class="tc3" scope="col"><?php echo $lang_ap_spambarrier['Col_Registered'] ?></th>
-				</tr>
-			</thead>
-			<tbody>
-<?php
-$result = $db->query('SELECT * FROM '.$db->prefix.'users WHERE id > 1 AND num_posts = 0 AND signature like "%http%" ORDER BY registered DESC LIMIT 50') or error('Unable to fetch users', __FILE__, __LINE__, $db->error());
+    <div id="users2" class="blocktable">
+        <h2><span><?php echo $lang_ap_spambarrier['SB_users'] ?></span></h2>
+        <div class="box">
+            <div class="inbox">
+                <table cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="tcl" scope="col"><?php echo $lang_ap_spambarrier['Col_Username'] ?></th>
+                        <th class="tcr" scope="col"><?php echo $lang_ap_spambarrier['Col_Email'] ?></th>
+                        <th class="tc3" scope="col"><?php echo $lang_ap_spambarrier['Col_Posts'] ?></th>
+                        <th class="tc2" scope="col"><?php echo $lang_ap_spambarrier['Col_Signature'] ?></th>
+                        <th class="tc2" scope="col"><?php echo $lang_ap_spambarrier['Col_Website'] ?></th>
+                        <th class="tc3" scope="col"><?php echo $lang_ap_spambarrier['Col_Registered'] ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+    <?php
+    // $result = $db->query('SELECT * FROM '.$db->prefix.'users WHERE id > 1 AND num_posts = 0 AND signature IS NOT NULL ORDER BY registered DESC LIMIT 50') or error('Unable to fetch users', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'users WHERE id > 1 AND num_posts = 0 AND signature like "%http%" ORDER BY registered DESC LIMIT 50') or error('Unable to fetch users', __FILE__, __LINE__, $db->error());
 
-// If there are users with informations in their signatures but 0 posts
-if ($db->num_rows($result))
-{
-	require PUN_ROOT.'include/parser.php';
-	while ($cur_user = $db->fetch_assoc($result))
-	{
-		if (isset($signature_cache[$cur_user['id']]))
-			$signature = $signature_cache[$cur_user['id']];
-		else
-		{
-			$signature = parse_signature($cur_user['signature']);
-			$signature_cache[$cur_user['id']] = $signature;
-		}
+    // If there are users with informations in their signatures but 0 posts
+    if ($db->num_rows($result))
+    {
+        require PUN_ROOT.'include/parser.php';
+        while ($cur_user = $db->fetch_assoc($result))
+        {
+            if (isset($signature_cache[$cur_user['id']]))
+                $signature = $signature_cache[$cur_user['id']];
+            else
+            {
+                $signature = parse_signature($cur_user['signature']);
+                $signature_cache[$cur_user['id']] = $signature;
+            }
 
-		echo "\t\t\t\t\t\t".'<tr>
-		<td class="tcl"><a href="profile.php?id='.$cur_user['id'].'">'.pun_htmlspecialchars($cur_user['username']).'</a></td>
-		<td class="tcr">'.$cur_user['email'].'</td>
-		<td class="tc3">'.forum_number_format($cur_user['num_posts']).'</td>
-		<td class="tc2">'.$signature.'</td>
-		<td class="tc2">'.pun_htmlspecialchars($cur_user['url']).'</td>
-		<td class="tc3">'.format_time($cur_user['registered'], true).'</td></tr>'."\n";
-	}
+            echo "\t\t\t\t\t\t".'<tr>
+            <td class="tcl"><a href="profile.php?id='.$cur_user['id'].'">'.pun_htmlspecialchars($cur_user['username']).'</a></td>
+            <td class="tcr">'.$cur_user['email'].'</td>
+            <td class="tc3">'.forum_number_format($cur_user['num_posts']).'</td>
+            <td class="tc2">'.$signature.'</td>
+            <td class="tc2">'.pun_htmlspecialchars($cur_user['url']).'</td>
+            <td class="tc3">'.format_time($cur_user['registered'], true).'</td></tr>'."\n";
+        }
+    }
+        else
+            echo "\t\t\t\t".'<tr><td class="tcl" colspan="6">'.$lang_ap_spambarrier['No_match'].'</td></tr>'."\n";
+    ?>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="linksb">
+        <div class="inbox">
+            <div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
+        </div>
+
+    </div>
+    <?php
 }
-	else
-		echo "\t\t\t\t".'<tr><td class="tcl" colspan="6">'.$lang_ap_spambarrier['No_match'].'</td></tr>'."\n";
-?>
-			</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-
-<div class="linksb">
-	<div class="inbox">
-		<div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
-	</div>
-
-
-<?php
-}
-else
+else if (isset($_POST['get_stats']))
 {
 	// Collect some statistics from the database
 	$stats = array();
+    
+	$result = $db->query('SELECT count(*) FROM '.$db->prefix.'test_registrations') or error('Error0', __FILE__, __LINE__, $db->error());
+	$stats['collecting_total'] = $db->result($result);
 	
 	$result = $db->query('SELECT MIN(date) FROM '.$db->prefix.'test_registrations') or error('Error1', __FILE__, __LINE__, $db->error());
 	$stats['collecting_since'] = $db->result($result);
@@ -223,11 +227,106 @@ else
 	$result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) AS num_blocked FROM '.$db->prefix.'test_registrations WHERE spam = \'3\' AND date > '.(time()-14*24*60*60).' GROUP BY ' . $SB_Date_From_UnixTime . '') or error('Unable to fetch dnsbl 14 day log', __FILE__, __LINE__, $db->error());
 	while ($cur_date = $db->fetch_assoc($result))
 		$stats['last_14days_dnsbl'][$cur_date['day']] = $cur_date['num_blocked'];
+?>
+    <div class="linkst">
+        <div class="inbox">
+            <div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
+        </div>
+    </div>
+    <div class="blockform block2">
+		<h2><span><?php echo $lang_ap_spambarrier['Registration_stats'] ?></span></h2>
+		<div id="adstats" class="box">
+			<div class="inbox">
+				<dl>
+					<dt><?php echo $lang_ap_spambarrier['Collecting_since'] ?></dt>
+					<dd>
+						<?php echo ($stats['collecting_since'] != '') ? date($pun_config['o_date_format'], $stats['collecting_since']).' ('.floor((time()-$stats['collecting_since'])/(60*60*24)).' '.$lang_ap_spambarrier['days'].')' : $lang_ap_spambarrier['N_A'] ?><br />
+					</dd>
+					<dt><?php echo $lang_ap_spambarrier['Total'] ?></dt>
+					<dd>
+                        <?php echo $lang_ap_spambarrier['Global total'] ?> <?php echo $stats['collecting_total'] ?><br/>
+						<?php echo $lang_ap_spambarrier['NS'] ?> <?php echo $stats['num_nospam'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBH'] ?> <?php echo $stats['num_honeypot'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBS'] ?> <?php echo $stats['num_blacklist'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBD'] ?> <?php echo $stats['num_dnsbl']."\n" ?>
+					</dd>
+					<dt><?php echo $lang_ap_spambarrier['Avg_7d'] ?></dt>
+					<dd>
+						<?php echo $lang_ap_spambarrier['NS'] ?><?php echo round($stats['avg_nospam'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBH'] ?><?php echo round($stats['avg_honeypot'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBS'] ?><?php echo round($stats['avg_blacklist'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
+						<?php echo $lang_ap_spambarrier['BBD'] ?><?php echo round($stats['avg_dnsbl'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?>
+					</dd>
+					<dt><?php echo $lang_ap_spambarrier['Max_day'] ?></dt>
+					<dd>
+						<?php echo $lang_ap_spambarrier['NS'] ?><?php echo ($stats['most_nospam_num'] > 0) ? $stats['most_nospam_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_nospam_date'])).')' : '0' ?><br />
+						<?php echo $lang_ap_spambarrier['BBH'] ?><?php echo ($stats['most_honeypot_num'] > 0) ? $stats['most_honeypot_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_honeypot_date'])).')' : '0' ?><br />
+						<?php echo $lang_ap_spambarrier['BBS'] ?><?php echo ($stats['most_blacklist_num'] > 0) ? $stats['most_blacklist_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_blacklist_date'])).')'."\n" : '0' ?><br />
+						<?php echo $lang_ap_spambarrier['BBD'] ?><?php echo ($stats['most_dnsbl_num'] > 0) ? $stats['most_dnsbl_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_dnsbl_date'])).')'."\n" : '0'."\n" ?>
+					</dd>
+                    <dt><?php echo $lang_ap_spambarrier['Block_14d'] ?></dt>
+					<dd>
+<?php
+$result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) AS num_blocked FROM '.$db->prefix.'test_registrations WHERE spam > \'0\' AND date > '.(time()-14*24*60*60).' GROUP BY ' . $SB_Date_From_UnixTime . '
+') or error($lang_ap_spambarrier['Unable_14d'], __FILE__, __LINE__, $db->error());
 
+    // If there are topics in this forum.
+    if ($db->num_rows($result))
+    {
+        $total_total = 0;
+        $total_honeypot = 0;
+        $total_sfs = 0;
+        $total_dnsbl = 0;
 
-	// Display the admin navigation menu
+        echo "\t\t\t\t\t\t".'<table>'."\n";
+        echo "\t\t\t\t\t\t".'<tr>'."\n";
+        echo '<td style="padding: 0; border: 0; width:24%">'.$lang_ap_spambarrier['StatsDate'].'</td>'."\n";
+        echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsTotal'].'</td>'."\n";
+        echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsHoneyPot'].'</td>'."\n";
+        echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsSFS'].'</td>'."\n";
+        echo '<td style="padding: 0; border: 0; width:40%">'.$lang_ap_spambarrier['StatsDNSBL'].'</td></tr>'."\n";
+
+        while ($cur_date = $db->fetch_assoc($result))
+        {
+            $day_honeypot = ($stats['last_14days_honeypot'][$cur_date['day']] != '') ? $stats['last_14days_honeypot'][$cur_date['day']] : '0';
+            $day_sfs = ($stats['last_14days_sfs'][$cur_date['day']] != '') ? $stats['last_14days_sfs'][$cur_date['day']] : '0';
+            $day_dnsbl = ($stats['last_14days_dnsbl'][$cur_date['day']] != '') ? $stats['last_14days_dnsbl'][$cur_date['day']] : '0';
+            echo "\t\t\t\t\t\t".'<tr><td style="padding: 0; border: 0">'.date($pun_config['o_date_format'], strtotime($cur_date['day'])).'</td><td style="padding: 0; border: 0">'.$cur_date['num_blocked'].'</td><td style="padding: 0; border: 0">'.$day_honeypot.'</td><td style="padding: 0; border: 0">'.$day_sfs.'</td><td style="padding: 0; border: 0">'.$day_dnsbl.'</td></tr>'."\n";
+
+            $total_honeypot += $day_honeypot;
+            $total_sfs += $day_sfs;
+            $total_dnsbl += $day_dnsbl;
+            $total_total += $cur_date['num_blocked'];
+        }
+        
+        echo "\t\t\t\t\t\t".'<tr style="border-top: 1px solid #CCC;"><td style="padding: 0; border: 0"><strong>'.$lang_ap_spambarrier['Sum14Days'].'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_total.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_honeypot.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_sfs.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_dnsbl.'</strong></td></tr>'."\n";
+
+        echo "\t\t\t\t\t\t".'</table>'."\n";
+    }
+    else
+    {
+        echo $lang_ap_spambarrier['N_A'];
+    }
+?>
+                    </dd>
+                </dl>
+			</div>
+		</div>
+    </div>
+
+    <div class="linkst">
+        <div class="inbox">
+            <div><a href="javascript:history.go(-1)"><?php echo $lang_ap_spambarrier['Go_back'] ?></a></div>
+        </div>
+    </div>
+
+    <?php
+} else {
+    
+	// Display the admin navigation menu  
 	generate_admin_menu($plugin);
 ?>
+
 	<div class="block">
 		<h2><span>SpamBarrier - v<?php echo PLUGIN_VERSION ?></span></h2>
 		<div class="box">
@@ -239,7 +338,7 @@ else
 	<div class="blockform">
 		<h2 class="block2"><span><?php echo $lang_ap_spambarrier['Options'] ?></span></h2>
 		<div class="box">
-			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier.php">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
 				<p class="submittop"><input type="submit" name="save" value="<?php echo $lang_ap_spambarrier['Save'] ?>" /></p>
 				<div class="inform">
 					<input type="hidden" name="form_sent" value="1" />
@@ -374,100 +473,40 @@ else
 		</div>
 	</div>
 
-	<div class="blockform block2">
+	<div class="blockform">
 		<h2><span><?php echo $lang_ap_spambarrier['Search_users'] ?></span></h2>
 		<div class="box">
-			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier.php">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
 				<div class="inbox">
 					<p><?php echo $lang_ap_spambarrier['Search_description'] ?>
 					</p>
 				</div>
 				<p class="submitend">
-					<input type="submit" name="search_users" value="<?php echo $lang_ap_spambarrier['Go!'] ?>" />
+					<input type="submit" name="search_users" value="<?php echo $lang_ap_spambarrier['Go!'] ?>" >
+                    </input>
 				</p>
 			</form>
 		</div>
 	</div>
 
-	<div class="blockform block2">
-		<h2><span><?php echo $lang_ap_spambarrier['Registration_stats'] ?></span></h2>
-		<div id="adstats" class="box">
-			<div class="inbox">
-				<dl>
-					<dt><?php echo $lang_ap_spambarrier['Collecting_since'] ?></dt>
-					<dd>
-						<?php echo ($stats['collecting_since'] != '') ? date($pun_config['o_date_format'], $stats['collecting_since']).' ('.floor((time()-$stats['collecting_since'])/(60*60*24)).' '.$lang_ap_spambarrier['days'].')' : $lang_ap_spambarrier['N_A'] ?>
-					</dd>
-					<dt><?php echo $lang_ap_spambarrier['Total'] ?></dt>
-					<dd>
-						<?php echo $lang_ap_spambarrier['NS'] ?> <?php echo $stats['num_nospam'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBH'] ?> <?php echo $stats['num_honeypot'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBS'] ?> <?php echo $stats['num_blacklist'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBD'] ?> <?php echo $stats['num_dnsbl']."\n" ?>
-					</dd>
-					<dt><?php echo $lang_ap_spambarrier['Avg_7d'] ?></dt>
-					<dd>
-						<?php echo $lang_ap_spambarrier['NS'] ?><?php echo round($stats['avg_nospam'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBH'] ?><?php echo round($stats['avg_honeypot'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBS'] ?><?php echo round($stats['avg_blacklist'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?><br />
-						<?php echo $lang_ap_spambarrier['BBD'] ?><?php echo round($stats['avg_dnsbl'], 2) ?> <?php echo $lang_ap_spambarrier['per_day'] ?>
-					</dd>
-					<dt><?php echo $lang_ap_spambarrier['Max_day'] ?></dt>
-					<dd>
-						<?php echo $lang_ap_spambarrier['NS'] ?><?php echo ($stats['most_nospam_num'] > 0) ? $stats['most_nospam_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_nospam_date'])).')' : '0' ?><br />
-						<?php echo $lang_ap_spambarrier['BBH'] ?><?php echo ($stats['most_honeypot_num'] > 0) ? $stats['most_honeypot_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_honeypot_date'])).')' : '0' ?><br />
-						<?php echo $lang_ap_spambarrier['BBS'] ?><?php echo ($stats['most_blacklist_num'] > 0) ? $stats['most_blacklist_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_blacklist_date'])).')'."\n" : '0' ?><br />
-						<?php echo $lang_ap_spambarrier['BBD'] ?><?php echo ($stats['most_dnsbl_num'] > 0) ? $stats['most_dnsbl_num'].' ('.date($pun_config['o_date_format'], strtotime($stats['most_dnsbl_date'])).')'."\n" : '0'."\n" ?>
-					</dd>
-                    <dt><?php echo $lang_ap_spambarrier['Block_14d'] ?></dt>
-					<dd>
-<?php
-$result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) AS num_blocked FROM '.$db->prefix.'test_registrations WHERE spam > \'0\' AND date > '.(time()-14*24*60*60).' GROUP BY ' . $SB_Date_From_UnixTime . '
-') or error($lang_ap_spambarrier['Unable_14d'], __FILE__, __LINE__, $db->error());
-
-// If there are topics in this forum.
-if ($db->num_rows($result))
-{
-	$total_total = 0;
-	$total_honeypot = 0;
-	$total_sfs = 0;
-	$total_dnsbl = 0;
-
-	echo "\t\t\t\t\t\t".'<table>'."\n";
-	echo "\t\t\t\t\t\t".'<tr>'."\n";
-	echo '<td style="padding: 0; border: 0; width:24%">'.$lang_ap_spambarrier['StatsDate'].'</td>'."\n";
-	echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsTotal'].'</td>'."\n";
-	echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsHoneyPot'].'</td>'."\n";
-	echo '<td style="padding: 0; border: 0; width:12%">'.$lang_ap_spambarrier['StatsSFS'].'</td>'."\n";
-	echo '<td style="padding: 0; border: 0; width:40%">'.$lang_ap_spambarrier['StatsDNSBL'].'</td></tr>'."\n";
-
-	while ($cur_date = $db->fetch_assoc($result))
-	{
-		$day_honeypot = ($stats['last_14days_honeypot'][$cur_date['day']] != '') ? $stats['last_14days_honeypot'][$cur_date['day']] : '0';
-		$day_sfs = ($stats['last_14days_sfs'][$cur_date['day']] != '') ? $stats['last_14days_sfs'][$cur_date['day']] : '0';
-		$day_dnsbl = ($stats['last_14days_dnsbl'][$cur_date['day']] != '') ? $stats['last_14days_dnsbl'][$cur_date['day']] : '0';
-		echo "\t\t\t\t\t\t".'<tr><td style="padding: 0; border: 0">'.date($pun_config['o_date_format'], strtotime($cur_date['day'])).'</td><td style="padding: 0; border: 0">'.$cur_date['num_blocked'].'</td><td style="padding: 0; border: 0">'.$day_honeypot.'</td><td style="padding: 0; border: 0">'.$day_sfs.'</td><td style="padding: 0; border: 0">'.$day_dnsbl.'</td></tr>'."\n";
-
-		$total_honeypot += $day_honeypot;
-		$total_sfs += $day_sfs;
-		$total_dnsbl += $day_dnsbl;
-		$total_total += $cur_date['num_blocked'];
-	}
-	
-	echo "\t\t\t\t\t\t".'<tr style="border-top: 1px solid #CCC;"><td style="padding: 0; border: 0"><strong>'.$lang_ap_spambarrier['Sum14Days'].'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_total.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_honeypot.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_sfs.'</strong></td><td style="padding: 0; border: 0"><strong>'.$total_dnsbl.'</strong></td></tr>'."\n";
-
-	echo "\t\t\t\t\t\t".'</table>'."\n";
-}
-else
-	echo $lang_ap_spambarrier['N_A'];
-?>
-					</dd>
-				</dl>
-			</div>
+	<div class="blockform">
+		<h2><span><?php echo $lang_ap_spambarrier['Display stats'] ?></span></h2>
+		<div class="box">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
+				<div class="inbox">
+					<p><?php echo $lang_ap_spambarrier['Stats explanation']?>
+					</p>
+				</div>
+				<p class="submitend">
+					<input type="submit" name="get_stats" value="<?php echo $lang_ap_spambarrier['Display the statistics'] ?>" />
+				</p>
+			</form>
 		</div>
 	</div>
 
 
-<?php
+    <?php
 }
-?>
+    ?>
+    
+<div>

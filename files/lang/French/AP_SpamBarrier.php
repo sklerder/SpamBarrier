@@ -9,9 +9,7 @@ $lang_ap_spambarrier = array(
 'Col_Website'					=>	'Site Web',
 'Col_Signature'					=>	'Signature',
 'Col_Registered'				=>	'Inscription',
-
 'Go_back'					=>	'Retour',
-
 'Description'					=>	'Ce plugin est utilisé pour modifier les réglages de la mod "<strong>SpamBarrier</strong>".',
 'Options'					=>	'Options',
 'WL_Settings'					=>	'Réglages Whitelist ',
@@ -49,7 +47,6 @@ Ces contrôles peuvent outrepasser les résultats de StopForumSpam et/ou DNSBL (
 'Yes'						=>	'Oui',
 'No'						=>	'Non',
 'SFS_description'				=>	'StopForumSpam est une base de donnée qui recense les spammeurs (adresse IP, email et pseudo). Chaque client peut être contributeur de cette base, par inscription comme membre.',
-
 'SFS_reg_check'					=>	'Contrôle StopForumSpam à l\'inscription',
 'SFS_reg_description'				=>	'Si l\'utilisateur qui tente de s\'inscrire passe le contrôle HoneyPot, vérifier l\'adresse IP et l\'adresse email (pas le pseudo) auprès de la base de données StopForumSpam. Même si le HoneyPot traite presque 100% des robots, le service StopForumSpam est utilisé comme seconde barrière contre les spammeurs humains.',
 'SFS_login_check'				=>	'Contrôle StopForumSpam à la connexion',
@@ -64,15 +61,17 @@ Ces contrôles peuvent outrepasser les résultats de StopForumSpam et/ou DNSBL (
 'DNSBL_reg_description'				=>	'Contrôle uniquement l\'adresse IP de l\'utilisateur (ni le pseudo, ni l\'email) auprès des DNSBL (DNS BlackList) lors de l\'inscription. Le service DNSBL est utilisé ici comme troisième barrière contre les spammeurs/mauvais plaisants. Peut permettre de bloquer quelques spammeurs de plus.',
 'DNSBL_list'					=>	'Liste de serveurs DNSBL',
 'DNSBL_list_description'			=>	'La liste des serveurs DNSBL à consulter (séparés par des virgules). Soyez prudents en les utilisant (latence dans les listes, faux positifs).',
-
 'Save'						=>	'Enregistrer',
-
 'Search_users'					=>	'Recherche d\'utilisateurs',
-'Search_description'				=>	'Cette fonctionnalité permet de rechercher les utilisateurs avec une URL dans leur signature et n\'ayant jamais posté. Ceci peut aider à trouver les spammeurs qui auraient passé au travers des contrôles "SpamBarrier". Les résultats seront limités au 50 derniers utilisateurs enregistrés répondant à ces critères.',
-'Go!'						=>	'Chercher !',
+'Search_description'				=>	'Cette fonction permet de rechercher les utilisateurs avec une URL dans leur signature et n\'ayant jamais posté. Ceci peut aider à trouver les potentiels spammeurs qui auraient passé au travers des contrôles "SpamBarrier". <br />Les résultats seront limités aux 50 derniers utilisateurs enregistrés répondant à ces critères.',
+'Go!'						=>	'Chercher',
 'No_match'					=>	'Aucune correspondance.',
+'Display stats'             =>  'Afficher les stats',
+'Stats explanation'         =>  'Cette fonction est très gourmande en temps (plusieurs secondes par centaine de milliers d\'enregistrements en base de données). <br />Elle affiche les statistiques de "SpamBarrier" sur l\'ensemble des enregistrement en base de données.',
 'Registration_stats'				=>	'Statistiques d\'inscription',
-'Collecting_since'				=>	'Début des statistiques',
+'Display the statistics'    =>  'Calculer et afficher',
+'Global total'              =>  'Total global : ',
+'Collecting_since'			=>	'Début des statistiques',
 'days'						=>	'jours',
 'N_A'						=>	'Non disponible',
 'Total'						=>	'Total',

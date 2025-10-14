@@ -2,9 +2,9 @@
 ##
 ##        Mod title:  SpamBarrier
 ##
-##      Mod version:  1.0.7
-##  Works on FluxBB:  1.5.10 (to be tested with 1.5.11)
-##     Release date:  2025-09-13
+##      Mod version:  1.0.7.1
+##  Works on FluxBB:  1.5.11 (works with prior versions of FluxBB)
+##     Release date:  2025-10-14
 ##           Author:  sklerder (sklerder@orange.fr)
 ##
 ##       Ideas from:  - Reines (jamie@jamierf.co.uk),
@@ -18,6 +18,8 @@
 ##                     - The second protection checks IPs and Emails against StopForumSpam database at registration or login
 ##                     - The third protection checks IPs against DNS BlackLists
 ##
+##        Languages:  English, French
+##
 ##   Repository URL:  https://github.com/sklerder/SpamBarrier
 ##
 ##   Affected files:  profile.php
@@ -26,7 +28,7 @@
 ##                    lang/English/profile.php
 ##                    lang/English/register.php
 ##                    style/Air.css (you must repeat modifications of
-##                                style/Air.css on all the stylesheets you use)
+##                     style/Air.css on all the stylesheets you use)
 ##
 ##       Affects DB: Yes
 ##          New table: 'test_registrations'
@@ -84,6 +86,15 @@
 ##           - More explicit error messages when spamming conditions are met
 ##              (in previous releases, they were RC 1, RC 2, RC 3, now they
 ##              are IP SFS, IP DNSBL, Email SFS, HP)
+##
+## What's new since 1.0.7:
+##           - The statistics part of the plugin has been moved to a separate function.
+##              Thus, the plugin is instantaneously loaded.
+##              The statistics, when invoked, can take many seconds before displaying a result,
+##              depending on the number of records in the database 
+##              (typically, about three to five seconds per 100 000 records).
+##           - Minor modifications on the translations of the plugin.
+##           - All the files of the plugins are now in Unix mode (end of line = LF).
 
 
 #
