@@ -96,7 +96,7 @@ if (isset($_POST['form_sent']))
 	require_once PUN_ROOT.'include/cache.php';
 	generate_config_cache();
 
-	redirect('admin_loader.php?plugin=AP_SpamBarrier_v071.php', $lang_ap_spambarrier['Redirect message']);
+	redirect('admin_loader.php?plugin=AP_SpamBarrier.php', $lang_ap_spambarrier['Redirect message']);
 }
 else if (isset($_POST['search_users']))
 {
@@ -338,7 +338,7 @@ $result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) 
 	<div class="blockform">
 		<h2 class="block2"><span><?php echo $lang_ap_spambarrier['Options'] ?></span></h2>
 		<div class="box">
-			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier.php">
 				<p class="submittop"><input type="submit" name="save" value="<?php echo $lang_ap_spambarrier['Save'] ?>" /></p>
 				<div class="inform">
 					<input type="hidden" name="form_sent" value="1" />
@@ -476,7 +476,7 @@ $result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) 
 	<div class="blockform">
 		<h2><span><?php echo $lang_ap_spambarrier['Search_users'] ?></span></h2>
 		<div class="box">
-			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier.php">
 				<div class="inbox">
 					<p><?php echo $lang_ap_spambarrier['Search_description'] ?>
 					</p>
@@ -492,7 +492,7 @@ $result = $db->query('SELECT ' . $SB_Date_From_UnixTime . ' AS day, COUNT(date) 
 	<div class="blockform">
 		<h2><span><?php echo $lang_ap_spambarrier['Display stats'] ?></span></h2>
 		<div class="box">
-			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier_v071.php">
+			<form method="post" action="admin_loader.php?plugin=AP_SpamBarrier.php">
 				<div class="inbox">
 					<p><?php echo $lang_ap_spambarrier['Stats explanation']?>
 					</p>
